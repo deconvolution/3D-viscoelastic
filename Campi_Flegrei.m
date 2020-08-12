@@ -1,6 +1,28 @@
 %% Dimensions
 close all;
 clear all;
+%%
+M=table2array(readtable('./modvPS.txt'));
+M2=reshape(M,[61,96,116,6]);
+M3=permute(M2,[3,2,1,4]);
+tit={'WE','SN','Al','vp','vs','vp/vs'};
+figure
+for l2=1:6
+subplot(3,2,l2)
+pcolor3(M3(:,:,:,l2));
+xlabel('x');
+ylabel('y');
+zlabel('z');
+colorbar;
+title(tit(l2));
+set(gca,'zdir','reverse');
+end
+
+% https://www.nhc.noaa.gov/gccalc.shtml
+dx=790;
+dy=111;
+dz=100;
+%% dimensions
 dh=5; % Spacial grid step
 dx=dh;
 dy=dh;
@@ -73,24 +95,25 @@ Rc=10^-3;
 %%
 [ux,uy,uz]=solver(dt,dx,dy,dz,nt,nx,ny,nz,sx,sy,sz,srcx,srcy,srcz,lp,C,Eta,rho,lpn,Rc);
 %%
-lim2=1*[min(ux(:)),max(ux(:))];
+lim2=.1*[min(ux(:)),max(ux(:))];
 for l2=1:nt
     tt=uy(sx,:,:,l2);
     tt2=reshape(tt,[ny,nz]);
     figure(3)
     
-    imagesc(tt2);
+    imagesc(tt2,lim2);
     title(num2str(l2));
     colorbar;
     shg;
 end
 %%
 tt=permute(ux,[2,1,3,4]);
+lim2=.1*[min(ux(:)),max(ux(:))];
 for l2=1:10:nt
     figure(3)
     pcolor3(tt(:,:,:,l2));
     set(gca,'zdir','reverse');
-    
+    caxis(lim2);
     xlabel(['x*' num2str(dx) '[m]']);
     ylabel(['y*' num2str(dx) '[m]']);
     zlabel(['z*' num2str(dx) '[m]']);
