@@ -580,5 +580,5 @@ s2=replace(s2,...
     '(6,6,i,j,k)'...
     });
 s2=replace(s2,' ','');
-s2=replace(s2,{'rho','(x,y,z,t)','ctwo'},{'rho(i,j,k)','','c(i,j,k)'});
+s2=replace(s2,{'rho','(x,y,z,t)'},{'rho(i,j,k)',''});
 end

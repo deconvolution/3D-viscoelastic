@@ -1,7 +1,7 @@
 %% Dimensions
 close all;
 clear all;
-dh=5; % Spacial grid step
+dh=8; % Spacial grid step
 dx=dh;
 dy=dh;
 dz=dh;
@@ -10,11 +10,11 @@ dt=10^-3; % [s]
 nt=800; % Amount of time steps
 ns=nt;
 
-nx=71;
-ny=51;
-nz=41;
+nx=101;
+ny=81;
+nz=51;
 %% Define viscoelastic parameters
-theta=0;
+theta=10^-6;
 tau=5/8*theta;
 
 lambda=10^9;
@@ -54,18 +54,18 @@ end
 rho=ones(nx,ny,nz)*1000;
 %% Source and source signals
 M=2.7;
-sx=23;
-sy=25;
-sz=3;
+sx=[23,83];
+sy=[25,25];
+sz=[3,3];
 sn=length(sx);
 freq=10;
 singles=rickerWave(freq,dt,ns,M);
 srcx=zeros(nt,1);
 srcy=srcx;
 srcz=srcx;
-srcx=1*singles;
-srcy=1*singles;
-srcz=1*singles;
+srcx=1*[singles,singles];
+srcy=1*[singles,singles];
+srcz=1*[singles,singles];
 %% boundary condition input
 lp=20;
 lpn=2;
@@ -73,10 +73,10 @@ Rc=10^-3;
 %%
 [ux,uy,uz]=solver(dt,dx,dy,dz,nt,nx,ny,nz,sx,sy,sz,srcx,srcy,srcz,lp,C,Eta,rho,lpn,Rc);
 %%
-lim2=.1*[min(ux(:)),max(ux(:))];
+lim2=.01*[min(ux(:)),max(ux(:))];
 for l2=1:nt
-    tt=uy(sx,:,:,l2);
-    tt2=reshape(tt,[ny,nz]);
+    tt=ux(:,sy(1),:,l2);
+    tt2=reshape(tt,[nx,nz]);
     figure(3)
     
     imagesc(tt2,lim2);
@@ -86,7 +86,7 @@ for l2=1:nt
 end
 %%
 tt=permute(ux,[2,1,3,4]);
-lim2=.1*[min(ux(:)),max(ux(:))];
+lim2=.01*[min(ux(:)),max(ux(:))];
 for l2=1:10:nt
     figure(3)
     pcolor3(tt(:,:,:,l2));

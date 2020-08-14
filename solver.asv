@@ -260,18 +260,16 @@ Sy=Sx;
 Sz=Sx;
 % compute u
 for m=1:Ns
+    i=sx(m);
+    j=sy(m);
+    k=sz(m);
     Sx(sx(m),sy(m),sz(m))=srcx(l,m);
     Sy(sx(m),sy(m),sz(m))=srcy(l,m);
     Sz(sx(m),sy(m),sz(m))=srcz(l,m);
-    for i=sx(m)-1:sx(m)+1
-        for j=sy(m)-1:sy(m)+1
-            for k=sz(m)-1:sz(m)+1
-                ux(i,j,k,l+1)=ux(i,j,k,l+1)+dt^2/rho(i,j,k)*((Sz(i,j+1,k)-Sz(i,j-1,k))/2/dy-(Sy(i,j,k+1)-Sy(i,j,k-1))/2/dz);
-                uy(i,j,k,l+1)=uy(i,j,k,l+1)+dt^2/rho(i,j,k)*((Sx(i,j,k+1)-Sx(i,j,k-1))/2/dz-(Sz(i+1,j,k)-Sz(i-1,j,k))/2/dx);
-                uz(i,j,k,l+1)=uz(i,j,k,l+1)+dt^2/rho(i,j,k)*((Sy(i+1,j,k)-Sy(i-1,j,k))/2/dx-(Sx(i,j+1,k)-Sx(i,j-1,k))/2/dy);
-            end
-        end
-    end
+    
+    ux(sx(m),sy(m),sz(m),l+1)=ux(sx(m),sy(m),sz(m),l+1)+dt^2/rho(i,j,k)*((Sz(i,j+1,k)-Sz(i,j-1,k))/2/dy-(Sy(i,j,k+1)-Sy(i,j,k-1))/2/dz);
+    uy(sx(m),sy(m),sz(m),l+1)=uy(sx(m),sy(m),sz(m),l+1)+dt^2/rho(i,j,k)*((Sx(i,j,k+1)-Sx(i,j,k-1))/2/dz-(Sz(i+1,j,k)-Sz(i-1,j,k))/2/dx);
+    uz(sx(m),sy(m),sz(m),l+1)=uz(sx(m),sy(m),sz(m),l+1)+dt^2/rho(i,j,k)*((Sy(i+1,j,k)-Sy(i-1,j,k))/2/dx-(Sx(i,j+1,k)-Sx(i,j-1,k))/2/dy);
 end
 fprintf('\ntime step=%d/%d',l+1,nt);
 fprintf('\n    epalsed time=%.2fs',toc);
