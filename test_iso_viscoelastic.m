@@ -149,11 +149,11 @@ end
 %% slice
 slice_x=sx(1);
 slice_y=sy(1);
-slice_z=sz(1);
-tt=uz;
+slice_z=1;
+tt=ux;
 lim2=.01*[min(tt(:)),max(tt(:))];
 
-for l2=1:nt
+for l2=[1:5:nt,nt]
     figure(4)
     subplot(2,2,1)
     imagesc(reshape(tt(slice_x,:,:,l2),[ny,nz]),lim2);
@@ -181,4 +181,10 @@ for l2=1:nt
     hold off;
     
     shg;
+end
+%% slice
+for l2=1:5:nt
+    figure(99)
+    slice(ux(:,:,:,l2),slice_x,slice_y,slice_z);
+    set(gca,'zdir','reverse');
 end
