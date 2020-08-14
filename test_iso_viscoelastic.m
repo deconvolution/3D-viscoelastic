@@ -87,20 +87,7 @@ end
 %%
 tt=permute(ux,[2,1,3,4]);
 lim2=.01*[min(ux(:)),max(ux(:))];
-for l2=1:10:nt
-    figure(3)
-    pcolor3(tt(:,:,:,l2));
-    set(gca,'zdir','reverse');
-    caxis(lim2);
-    xlabel(['x*' num2str(dx) '[m]']);
-    ylabel(['y*' num2str(dx) '[m]']);
-    zlabel(['z*' num2str(dx) '[m]']);
-    title(num2str(l2));
-    colorbar;
-    shg;
-end
-%% ux and uz field
-%{
+
 col=[1,0,0;
     0,1,0;
     0,0,1;
@@ -109,73 +96,44 @@ col=[1,0,0;
     1,1,0;
     1,1,1;
     0,0,0];
-rx=[50,100,150,200,250,280];
+rx=[10,20,30,40,51];
+ry=[10,20,30,40,51];
 rz=[1,1,1,1,1,1];
 rt=dt:dt:dt*nt;
 t3=zeros(length(rx),nt);
 t4=t3;
 for i=1:size(t3,1)
-    t3(i,:)=real(reshape(ux(rx(i),rz(i),:),[1,nt]));
-    t4(i,:)=real(reshape(uz(rx(i),rz(i),:),[1,nt]));
+    t3(i,:)=real(reshape(ux(rx(i),ry(i),rz(i),:),[1,nt]));
+    t4(i,:)=real(reshape(uz(rx(i),ry(i),rz(i),:),[1,nt]));
 end
-lim2=.1*[min(min(real(ux(:)))),max(max(real(ux(:))))];
-lim3=.1*[min(min(real(uz(:)))),max(max(real(uz(:))))];
-for l=nt
-    figure(4)
+
+for l2=1:10:nt
+    figure(3)
     set(gcf,'Visible','on');
-    set(gcf,'position',[80,80,1300,600]);
+    set(gcf,'position',[0,0,1500,600]);
     
-    subplot(2,2,1)
-    imshow(real(ux(:,:,l))',lim2);
+    subplot(1,2,1)
+    pcolor3(tt(:,:,:,l2));
+    caxis(lim2);
     colorbar;
-    hold on;
-    contour(reshape(C(3,3,:,:),[nx,nz])','--','color','cyan');
-    hold on;
-    ax2=scatter(sx,sz,30,[1,0,0],'o');
-    hold on;
-    for i=1:length(rx)
-        ax4=scatter(rx(i),rz(i),30,col(i,:),'filled');
-        hold on;
-    end
-    ax3=plot([lp+1,lp+1],[1,nz-lp-1],'color','blue');
-    hold on;
-    ax3=plot([nx-lp-1,nx-lp-1],[1,nz-lp-1],'color','blue');
-    hold on;
-    hold on;
-    ax3=plot([lp+1,nx-lp-1],[nz-lp-1,nz-lp-1],'color','blue');
-    axis on;
-    xlabel({['x*' num2str(dh) '[m]']});
-    ylabel({['z*' num2str(dh) '[m]']});
-    title({['t=' num2str(l*dt) 's'],['ux']});
-    hold on;
+    set(gca,'zdir','reverse');
+    xlabel(['x*' num2str(dx) '[m]']);
+    ylabel(['y*' num2str(dx) '[m]']);
+    zlabel(['z*' num2str(dx) '[m]']);
+    title(['t=' num2str(dt*l2) 's']);
     
-    subplot(2,2,3)
-    imshow(real(uz(:,:,l))',lim3);
-    colorbar;
-    hold on;
-    contour(reshape(C(3,3,:,:),[nx,nz])','--','color','cyan');
-    hold on;
-    ax2=scatter(sx,sz,30,[1,0,0],'o');
-    hold on;
-    for i=1:length(rx)
-        ax4=scatter(rx(i),rz(i),30,col(i,:),'filled');
+    for i=1:size(sx,2)
         hold on;
+        ax2=plot3(sx(i),sy(i),sz(i),'o','color','red');
     end
-    ax3=plot([lp+1,lp+1],[1,nz-lp-1],'color','blue');
-    hold on;
-    ax3=plot([nx-lp-1,nx-lp-1],[1,nz-lp-1],'color','blue');
-    hold on;
-    hold on;
-    ax3=plot([lp+1,nx-lp-1],[nz-lp-1,nz-lp-1],'color','blue');
-    axis on;
-    xlabel({['x*' num2str(dh) '[m]']});
-    ylabel({['z*' num2str(dh) '[m]']});
-    title({['uz']});
-    hold on;
-    
+    for i=1:size(rx,2)
+        hold on;
+        ax3=plot3(rx(i),ry(i),rz(i),'.','color',col(i,:),'markersize',20);
+    end
+   
     subplot(2,2,2)
     for i=1:length(rx)
-        plot(rt(1:l),t3(i,1:l),'color',col(i,:));
+        plot(rt(1:l2),t3(i,1:l2),'color',col(i,:));
         hold on;
     end
     xlabel('t [s]');
@@ -183,84 +141,44 @@ for l=nt
     xlim([0,rt(end)]);
     ylim([min(t3(:)),max(t3(:))]);
     
-    subplot(2,2,4)
-    for i=1:length(rx)
-        plot(rt(1:l),t4(i,1:l),'color',col(i,:));
-        hold on;
-    end
-    xlabel('t [s]');
-    ylabel('uz [m]');
-    xlim([0,rt(end)]);
-    ylim([min(t4(:)),max(t4(:))]);
-    
-    legend([ax2,ax3,ax4],'source','PML boundary','receiver','Location',[0.5,0.03,0.005,0.005],'orientation','horizontal');
+    legend([ax2,ax3],'source','receiver','Location',[0.5,0.03,0.005,0.005],'orientation','horizontal');
+    hold off;
     shg;
     % print(gcf,['.\marmousi2\' num2str(l) '.png'],'-dpng','-r100');
 end
-hold off;
-%% display
+%% slice
+slice_x=sx(1);
+slice_y=sy(1);
+slice_z=sz(1);
+tt=ux;
+lim2=.01*[min(tt(:)),max(tt(:))];
 
-rx=50;
-rz=1;
-close;
-t3=real(reshape(ux(rx,rz,:),[nt,1]));
-t4=real(reshape(uz(rx,rz,:),[nt,1]));
-rt=dt:dt:dt*nt;
-ux2=ux/(max(real(uz(:))))*60;
-uz2=uz/(max(real(uz(:))))*60;
-%ux2(ux2<.5*max(ux2))=0;
-%uz2(uz2<.5*max(uz2))=0;
-for l=1:2:nt
-    figure(20)
-    set(gcf,'Visible','on');
-    set(gcf,'position',[80,80,1000,600]);
-    
+for l2=1:nt
+    figure(4)
     subplot(2,2,1)
-    quiver(real(ux2(:,:,l)).',real(uz2(:,:,l)).',0);
-    set(gca,'ydir','reverse');
+    imagesc(reshape(tt4(slice_x,:,:,l2),[ny,nz]),lim2);
+    set(gca,'zdir','reverse');
+    xlabel(['y*' num2str(dx) '[m]']);
+    ylabel(['z*' num2str(dy) '[m]']);
+    title({['t=' num2str(dt*l2) 's'],['x=' num2str(dx*slice_x) 'm']});
     colorbar;
-    xlim([0,nx]);
-    ylim([-20,nz]);
-    xlabel({['x*' num2str(dx) '[m]']});
-    ylabel({['z*' num2str(dz) '[m]']});
-    title({['t=' num2str(l*dt) 's'],['displacement vector [m]']});
-    hold on;
-    ax2=scatter(sx,sz,30,[1,0,0],'o');
-    hold on;
-    ax4=scatter(rx,rz,30,[0,1,0],'filled');
-    hold on;
-    ax3=plot([lp+1,lp+1],[1,nz-lp-1],'color','blue');
-    hold on;
-    ax3=plot([nx-lp-1,nx-lp-1],[1,nz-lp-1],'color','blue');
-    hold on;
-    ax3=plot([lp+1,nx-lp-1],[nz-lp-1,nz-lp-1],'color','blue');
-    axis on;
-    hold off;
-    
-    legend([ax2,ax4,ax3],'source','reiceiver','PML boundary','Location',[0.5,0.03,0.005,0.005],'orientation','horizontal');
     
     subplot(2,2,2)
-    plot(rt(1:l),t3(1:l));
-    xlabel('t [s]');
-    ylabel('ux [m]');
-    xlim([0,dt*nt]);
-    ylim([min(t3),max(t3)]);
-    
-    subplot(2,2,4)
-    plot(rt(1:l),t4(1:l));
-    xlabel('t [s]');
-    ylabel('uz [m]');
-    xlim([0,dt*nt]);
-    ylim([min(t4),max(t4)]);
+    imagesc(reshape(tt4(:,slice_y,:,l2),[nx,nz]),lim2);
+    set(gca,'zdir','reverse');
+    xlabel(['y*' num2str(dx) '[m]']);
+    ylabel(['z*' num2str(dy) '[m]']);
+    title({['y=' num2str(dy*slice_y) 'm']});
+    colorbar;
     
     subplot(2,2,3)
-    imagesc(reshape(C(3,3,:,:),[nx,nz])');
+    imagesc(reshape(tt4(:,:,slice_z,l2),[nx,ny]),lim2);
+    set(gca,'zdir','reverse');
+    xlabel(['y*' num2str(dx) '[m]']);
+    ylabel(['z*' num2str(dy) '[m]']);
+    title({['z=' num2str(dz*slice_z) 'm']});
     colorbar;
-    xlabel({['x*' num2str(dx) '[m]']});
-    ylabel({['z*' num2str(dz) '[m]']});
-    title('C33 [Pa]');
+    hold off;
     
     shg;
-    %print(gcf,['.\iso\' num2str(l) '.png'],'-dpng','-r100');
 end
-%}
