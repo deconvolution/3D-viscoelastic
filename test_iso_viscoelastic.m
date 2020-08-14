@@ -158,24 +158,24 @@ for l2=1:nt
     subplot(2,2,1)
     imagesc(reshape(tt4(slice_x,:,:,l2),[ny,nz]),lim2);
     set(gca,'zdir','reverse');
-    xlabel(['y*' num2str(dx) '[m]']);
-    ylabel(['z*' num2str(dy) '[m]']);
+    xlabel(['z*' num2str(dz) '[m]']);
+    ylabel(['y*' num2str(dy) '[m]']);
     title({['t=' num2str(dt*l2) 's'],['x=' num2str(dx*slice_x) 'm']});
     colorbar;
     
     subplot(2,2,2)
     imagesc(reshape(tt4(:,slice_y,:,l2),[nx,nz]),lim2);
     set(gca,'zdir','reverse');
-    xlabel(['y*' num2str(dx) '[m]']);
-    ylabel(['z*' num2str(dy) '[m]']);
+    xlabel(['z*' num2str(dz) '[m]']);
+    ylabel(['x*' num2str(dx) '[m]']);
     title({['y=' num2str(dy*slice_y) 'm']});
     colorbar;
     
     subplot(2,2,3)
     imagesc(reshape(tt4(:,:,slice_z,l2),[nx,ny]),lim2);
     set(gca,'zdir','reverse');
-    xlabel(['y*' num2str(dx) '[m]']);
-    ylabel(['z*' num2str(dy) '[m]']);
+    xlabel(['y*' num2str(dy) '[m]']);
+    ylabel(['x*' num2str(dx) '[m]']);
     title({['z=' num2str(dz*slice_z) 'm']});
     colorbar;
     hold off;
