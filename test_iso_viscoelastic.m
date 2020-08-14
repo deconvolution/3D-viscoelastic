@@ -150,13 +150,13 @@ end
 slice_x=sx(1);
 slice_y=sy(1);
 slice_z=sz(1);
-tt=ux;
+tt=uz;
 lim2=.01*[min(tt(:)),max(tt(:))];
 
 for l2=1:nt
     figure(4)
     subplot(2,2,1)
-    imagesc(reshape(tt4(slice_x,:,:,l2),[ny,nz]),lim2);
+    imagesc(reshape(tt(slice_x,:,:,l2),[ny,nz]),lim2);
     set(gca,'zdir','reverse');
     xlabel(['z*' num2str(dz) '[m]']);
     ylabel(['y*' num2str(dy) '[m]']);
@@ -164,7 +164,7 @@ for l2=1:nt
     colorbar;
     
     subplot(2,2,2)
-    imagesc(reshape(tt4(:,slice_y,:,l2),[nx,nz]),lim2);
+    imagesc(reshape(tt(:,slice_y,:,l2),[nx,nz]),lim2);
     set(gca,'zdir','reverse');
     xlabel(['z*' num2str(dz) '[m]']);
     ylabel(['x*' num2str(dx) '[m]']);
@@ -172,7 +172,7 @@ for l2=1:nt
     colorbar;
     
     subplot(2,2,3)
-    imagesc(reshape(tt4(:,:,slice_z,l2),[nx,ny]),lim2);
+    imagesc(reshape(tt(:,:,slice_z,l2),[nx,ny]),lim2);
     set(gca,'zdir','reverse');
     xlabel(['y*' num2str(dy) '[m]']);
     ylabel(['x*' num2str(dx) '[m]']);
