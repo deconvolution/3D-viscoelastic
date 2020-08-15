@@ -66,7 +66,7 @@ srcz=srcx;
 srcx=1*[singles,singles];
 srcy=1*[singles,singles];
 srcz=1*[singles,singles];
-%% boundary condition input
+%% PML input
 lp=20;
 lpn=2;
 Rc=10^-3;
@@ -130,7 +130,7 @@ for l2=1:10:nt
         hold on;
         ax3=plot3(rx(i),ry(i),rz(i),'.','color',col(i,:),'markersize',20);
     end
-   
+    
     subplot(2,2,2)
     for i=1:length(rx)
         plot(rt(1:l2),t3(i,1:l2),'color',col(i,:));
