@@ -86,19 +86,6 @@ ns=nt;
 theta=0;
 tau=5/8*theta;
 
-lambda=10^9;
-mu=10^9*.5;
-C0=zeros(6,6);
-C0(1,1)=lambda+2*mu;
-C0(2,2)=C0(1,1);
-C0(3,3)=C0(1,1);
-C0(1,2)=lambda;
-C0(1,3)=lambda;
-C0(2,3)=lambda;
-C0(4,4)=mu;
-C0(5,5)=C0(4,4);
-C0(6,6)=C0(4,4);
-
 F0=zeros(6,6);
 lambda2=lambda*theta+2/3*mu*(theta-tau);
 mu2=mu*tau;
@@ -112,20 +99,18 @@ F0(4,4)=mu2;
 F0(5,5)=F0(4,4);
 F0(6,6)=F0(4,4);
 %%
-C=zeros(6,6,nx,ny,nz);
 Eta=zeros(6,6,nx,ny,nz);
 for i=1:6
     for j=1:6
-        C(i,j,:,:,:)=C0(i,j);
         Eta(i,j,:,:,:)=F0(i,j);
     end
 end
 rho=ones(nx,ny,nz)*1000;
 %% Source and source signals
 M=2.7;
-sx=23;
+sx=25;
 sy=25;
-sz=3;
+sz=200;
 sn=length(sx);
 freq=10;
 singles=rickerWave(freq,dt,ns,M);
