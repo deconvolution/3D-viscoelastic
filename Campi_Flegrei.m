@@ -5,7 +5,7 @@ clear all;
 M=table2array(readtable('./modvPS.txt'));
 M2=reshape(M,[61,96,116,6]);
 M3=permute(M2,[3,2,1,4]);
-M3=M3(1:50,1:30,1:20,:);
+M3=M3(1:40,1:30,1:20,:);
 tit={'WE','SN','Al','vp','vs','vp/vs'};
 figure('name','model');
 for l2=1:6
