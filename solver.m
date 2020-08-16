@@ -937,6 +937,7 @@ switch huge_model
                 ax2=plot3(sx(i),sy(i),sz(i),'o','color','red');
             end
             legend([ax2],'source','Location',[0.5,0.03,0.005,0.005],'orientation','horizontal');
+            print(gcf,['.\pic\' num2str(l) '.png'],'-dpng','-r100');
             hold off;
             shg;
             %% timing
