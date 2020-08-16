@@ -7,11 +7,11 @@ dy=dh;
 dz=dh;
 dt=10^-3; % [s]
 
-nt=3; % Amount of time steps
+nt=200; % Amount of time steps
 ns=nt;
 
-nx=51;
-ny=51;
+nx=101;
+ny=81;
 nz=51;
 %% Define viscoelastic parameters
 theta=10^-6;
