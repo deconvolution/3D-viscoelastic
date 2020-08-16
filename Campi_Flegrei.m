@@ -5,8 +5,9 @@ clear all;
 M=table2array(readtable('./modvPS.txt'));
 M2=reshape(M,[61,96,116,6]);
 M3=permute(M2,[3,2,1,4]);
-M3=M3(1:40,1:30,1:20,:);
+M3=M3(1:10,1:20,1:20,:);
 tit={'WE','SN','Al','vp','vs','vp/vs'};
+%%
 figure('name','model');
 for l2=1:6
     subplot(3,2,l2)
@@ -80,7 +81,7 @@ set(gca,'zdir','reverse');
 shg;
 %% time step
 dt=10^-3; % [s]
-nt=800; % Amount of time steps
+nt=8000; % Amount of time steps
 ns=nt;
 %% Define viscoelastic parameters
 theta=0;
@@ -106,7 +107,7 @@ rho=ones(nx,ny,nz);
 M=2.7;
 sx=25;
 sy=25;
-sz=200;
+sz=270;
 sn=length(sx);
 freq=10;
 singles=rickerWave(freq,dt,ns,M);
@@ -117,11 +118,11 @@ srcx=1*singles;
 srcy=1*singles;
 srcz=1*singles;
 %%
-rx=[22,30,40];
-ry=[20,30,40];
-rz=[30,40,40];
-rt=[2,3];
-huge_model=0;
+rx=22:100:1950;
+ry=ones(size(rx))*229;
+rz=ones(size(rx));
+rt=[100,1000,2000,3000,4000,5000,6000,7000,8000];
+huge_model=1;
 
 [Rx,Ry,Rz,Rux,Ruy,Ruz,ux,uy,uz]=solver(dt,dx,dy,dz,nt,nx,ny,nz,huge_model,sx,sy,sz,rt,srcx,srcy,srcz,rx,ry,rz,lp,C,Eta,rho,lpn,Rc);
 %%
@@ -136,9 +137,6 @@ col=[1,0,0;
     1,1,0;
     1,1,1;
     0,0,0];
-rx=[10,20,30,40,51];
-ry=[10,20,30,40,51];
-rz=[1,1,1,1,1,1];
 rt2=dt:dt:dt*nt;
 t3=zeros(length(rx),nt);
 t4=t3;
