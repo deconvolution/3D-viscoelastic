@@ -7,11 +7,11 @@ dy=dh;
 dz=dh;
 dt=10^-3; % [s]
 
-nt=800; % Amount of time steps
+nt=3; % Amount of time steps
 ns=nt;
 
-nx=101;
-ny=81;
+nx=51;
+ny=51;
 nz=51;
 %% Define viscoelastic parameters
 theta=10^-6;
@@ -54,28 +54,34 @@ end
 rho=ones(nx,ny,nz)*1000;
 %% Source and source signals
 M=2.7;
-sx=[23,83];
-sy=[25,25];
-sz=[3,3];
+sx=25;
+sy=25;
+sz=25;
 sn=length(sx);
 freq=10;
 singles=rickerWave(freq,dt,ns,M);
 srcx=zeros(nt,1);
 srcy=srcx;
 srcz=srcx;
-srcx=1*[singles,singles];
-srcy=1*[singles,singles];
-srcz=1*[singles,singles];
+srcx=1*[singles];
+srcy=1*[singles];
+srcz=1*[singles];
 %% PML input
 lp=20;
 lpn=2;
 Rc=10^-3;
 %%
-[ux,uy,uz]=solver(dt,dx,dy,dz,nt,nx,ny,nz,sx,sy,sz,srcx,srcy,srcz,lp,C,Eta,rho,lpn,Rc);
+rx=[22,30,40];
+ry=[20,30,40];
+rz=[30,40,40];
+rt=[2,3];
+huge_model=0;
+
+[Rx,Ry,Rz,Rux,Ruy,Ruz,ux,uy,uz]=solver(dt,dx,dy,dz,nt,nx,ny,nz,huge_model,sx,sy,sz,rt,srcx,srcy,srcz,rx,ry,rz,lp,C,Eta,rho,lpn,Rc);
 %%
 lim2=.01*[min(ux(:)),max(ux(:))];
 for l2=1:nt
-    tt=ux(:,sy(1),:,l2);
+    tt=ux(:,sy(1),:,3);
     tt2=reshape(tt,[nx,nz]);
     figure(3)
     
@@ -99,7 +105,7 @@ col=[1,0,0;
 rx=[10,20,30,40,51];
 ry=[10,20,30,40,51];
 rz=[1,1,1,1,1,1];
-rt=dt:dt:dt*nt;
+rt2=dt:dt:dt*nt;
 t3=zeros(length(rx),nt);
 t4=t3;
 for i=1:size(t3,1)
@@ -133,12 +139,12 @@ for l2=1:10:nt
     
     subplot(2,2,2)
     for i=1:length(rx)
-        plot(rt(1:l2),t3(i,1:l2),'color',col(i,:));
+        plot(rt2(1:l2),t3(i,1:l2),'color',col(i,:));
         hold on;
     end
     xlabel('t [s]');
     ylabel('ux [m]');
-    xlim([0,rt(end)]);
+    xlim([0,rt2(end)]);
     ylim([min(t3(:)),max(t3(:))]);
     
     legend([ax2,ax3],'source','receiver','Location',[0.5,0.03,0.005,0.005],'orientation','horizontal');
@@ -182,7 +188,7 @@ for l2=[1:5:nt,nt]
     
     shg;
 end
-%% slice
+%% slice function
 for l2=1:5:nt
     figure(99)
     slice(ux(:,:,:,l2),slice_x,slice_y,slice_z);
