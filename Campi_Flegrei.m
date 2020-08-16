@@ -5,7 +5,7 @@ clear all;
 M=table2array(readtable('./modvPS.txt'));
 M2=reshape(M,[61,96,116,6]);
 M3=permute(M2,[3,2,1,4]);
-M3=M3(1:10,1:20,1:20,:);
+M3=M3(1:10,1:10,1:15,:);
 tit={'WE','SN','Al','vp','vs','vp/vs'};
 %%
 figure('name','model');
@@ -44,9 +44,9 @@ C0(1,2,:,:,:)=lambda-2*mu;
 C0(1,3,:,:,:)=lambda-2*mu;
 C0(2,3,:,:,:)=lambda-2*mu;
 %% dimensions
-dx=8;
-dy=8;
-dz=8;
+dx=12;
+dy=12;
+dz=12;
 
 nx2=round(nx0/dx*dx0);
 ny2=round(ny0/dy*dy0);
@@ -107,9 +107,9 @@ rho=ones(nx,ny,nz);
 M=2.7;
 sx=25;
 sy=25;
-sz=270;
+sz=200;
 sn=length(sx);
-freq=10;
+freq=5;
 singles=rickerWave(freq,dt,ns,M);
 srcx=zeros(nt,1);
 srcy=srcx;
@@ -118,8 +118,8 @@ srcx=1*singles;
 srcy=1*singles;
 srcz=1*singles;
 %%
-rx=22:100:1950;
-ry=ones(size(rx))*229;
+rx=[22:100:1000,1000];
+ry=ones(size(rx))*90;
 rz=ones(size(rx));
 rt=[100,1000,2000,3000,4000,5000,6000,7000,8000];
 huge_model=1;
