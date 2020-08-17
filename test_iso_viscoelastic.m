@@ -113,7 +113,7 @@ for i=1:size(t3,1)
     t4(i,:)=real(reshape(uz(rx(i),ry(i),rz(i),:),[1,nt]));
 end
 
-for l2=1:10:nt
+for l2=[1:10:nt,nt]
     figure(3)
     set(gcf,'Visible','on');
     set(gcf,'position',[0,0,1500,600]);
