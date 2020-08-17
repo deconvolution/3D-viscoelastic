@@ -7,7 +7,7 @@ dy=dh;
 dz=dh;
 dt=10^-3; % [s]
 
-nt=200; % Amount of time steps
+nt=400; % Amount of time steps
 ns=nt;
 
 nx=101;
@@ -56,7 +56,7 @@ rho=ones(nx,ny,nz)*1000;
 M=2.7;
 sx=23;
 sy=24;
-sz=25;
+sz=10;
 sn=length(sx);
 freq=10;
 singles=rickerWave(freq,dt,ns,M);
