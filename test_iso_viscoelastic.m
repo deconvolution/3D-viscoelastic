@@ -14,7 +14,7 @@ nx=101;
 ny=81;
 nz=51;
 %% Define viscoelastic parameters
-theta=10^-6;
+theta=10^-5;
 tau=5/8*theta;
 
 lambda=10^9;
@@ -54,8 +54,8 @@ end
 rho=ones(nx,ny,nz)*1000;
 %% Source and source signals
 M=2.7;
-sx=25;
-sy=25;
+sx=23;
+sy=24;
 sz=25;
 sn=length(sx);
 freq=10;
