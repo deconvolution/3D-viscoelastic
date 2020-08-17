@@ -5,11 +5,9 @@ clear all;
 M=table2array(readtable('./modvPS.txt'));
 M2=reshape(M,[61,96,116,6]);
 M3=permute(M2,[3,2,1,4]);
-<<<<<<< HEAD
-M3=M3(1:10,1:10,1:20,:);
-=======
+
 M3=M3(1:10,1:10,1:15,:);
->>>>>>> 14f5ccbe9c53c5f243ef04b1227e519b9e777491
+
 tit={'WE','SN','Al','vp','vs','vp/vs'};
 %%
 figure('name','model');
@@ -122,17 +120,17 @@ srcx=1*singles;
 srcy=1*singles;
 srcz=1*singles;
 %%
-<<<<<<< HEAD
+
 rx=[22,30,40];
 ry=[20,30,40];
 rz=[30,40,40];
 rt=[2,3];
-=======
+
 rx=[22:100:1000,1000];
 ry=ones(size(rx))*90;
 rz=ones(size(rx));
 rt=[100,1000,2000,3000,4000,5000,6000,7000,8000];
->>>>>>> 14f5ccbe9c53c5f243ef04b1227e519b9e777491
+
 huge_model=1;
 
 [Rx,Ry,Rz,Rux,Ruy,Ruz,ux,uy,uz]=solver(dt,dx,dy,dz,nt,nx,ny,nz,huge_model,sx,sy,sz,rt,srcx,srcy,srcz,rx,ry,rz,lp,C,Eta,rho,lpn,Rc);

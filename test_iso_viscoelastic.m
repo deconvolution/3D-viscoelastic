@@ -7,7 +7,7 @@ dy=dh;
 dz=dh;
 dt=10^-3; % [s]
 
-nt=400; % Amount of time steps
+nt=700; % Amount of time steps
 ns=nt;
 
 nx=101;
@@ -52,6 +52,7 @@ for i=1:6
     end
 end
 rho=ones(nx,ny,nz)*1000;
+rho=rho+randn(nx,ny,nz)*100;
 %% Source and source signals
 M=2.7;
 sx=23;
@@ -126,7 +127,7 @@ for l2=[1:10:nt,nt]
     xlabel(['x*' num2str(dx) '[m]']);
     ylabel(['y*' num2str(dx) '[m]']);
     zlabel(['z*' num2str(dx) '[m]']);
-    title(['t=' num2str(dt*l2) 's']);
+    title({['ux [m]'],['t=' num2str(dt*l2) 's']});
     
     for i=1:size(sx,2)
         hold on;
@@ -150,7 +151,7 @@ for l2=[1:10:nt,nt]
     legend([ax2,ax3],'source','receiver','Location',[0.5,0.03,0.005,0.005],'orientation','horizontal');
     hold off;
     shg;
-    % print(gcf,['.\marmousi2\' num2str(l) '.png'],'-dpng','-r100');
+    print(gcf,['.\pic\' num2str(l2) '.png'],'-dpng','-r100');
 end
 %% slice
 slice_x=sx(1);
