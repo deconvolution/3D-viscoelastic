@@ -6,7 +6,7 @@ M=table2array(readtable('./modvPS.txt'));
 M2=reshape(M,[61,96,116,6]);
 M3=permute(M2,[3,2,1,4]);
 
-%M3=M3(1:10,1:10,1:15,:);
+M3=M3(1:10,1:10,1:15,:);
 
 tit={'WE','SN','Al','vp','vs','vp/vs'};
 %%
@@ -24,13 +24,9 @@ for l2=1:6
 end
 %%
 % https://www.nhc.noaa.gov/gccalc.shtml
-% longitude converted to meters
 dx0=790;
-% latitude converted to meters
 dy0=111;
-% altitude
 dz0=100;
-
 [nx0,ny0,nz0,~,~]=size(M3);
 %% PML input
 lp=20;
@@ -186,14 +182,12 @@ for l2=1:length(rt)
     % print(gcf,['.\marmousi2\' num2str(l) '.png'],'-dpng','-r100');
 end
 %%
-if huge_model==1
-    figure('name','seismogram');
-    for i=1:length(rx)
-        plot(rt2,Rx(:,i),'color',col(i,:));
-        hold on;
-    end
-    xlabel('t [s]');
-    ylabel('ux [m]');
-    xlim([0,rt2(end)]);
-    ylim([min(Rx(:)),max(Rx(:))]);
+figure('name','seismogram');
+for i=1:length(rx)
+    plot(rt2,Rx(:,i),'color',col(i,:));
+    hold on;
 end
+xlabel('t [s]');
+ylabel('ux [m]');
+xlim([0,rt2(end)]);
+ylim([min(Rx(:)),max(Rx(:))]);

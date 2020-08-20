@@ -1,18 +1,18 @@
 %% Dimensions
 close all;
 clear all;
-dh=5; % Spacial grid step
+dh=8; % Spacial grid step
 dx=dh;
 dy=dh;
 dz=dh;
 dt=10^-3; % [s]
 
-nt=800; % Amount of time steps
+nt=700; % Amount of time steps
 ns=nt;
 
 nx=101;
 ny=81;
-nz=61;
+nz=51;
 %% Define viscoelastic parameters
 theta=10^-5;
 tau=5/8*theta;
@@ -42,7 +42,7 @@ F0(2,3)=F0(1,2);
 F0(4,4)=mu2;
 F0(5,5)=F0(4,4);
 F0(6,6)=F0(4,4);
-%
+%%
 C=zeros(6,6,nx,ny,nz);
 Eta=zeros(6,6,nx,ny,nz);
 for i=1:6
@@ -56,8 +56,8 @@ rho=rho+randn(nx,ny,nz)*100;
 %% Source and source signals
 M=2.7;
 sx=23;
-sy=23;
-sz=4;
+sy=24;
+sz=10;
 sn=length(sx);
 freq=10;
 singles=rickerWave(freq,dt,ns,M);
@@ -71,22 +71,22 @@ srcz=1*[singles];
 lp=20;
 lpn=2;
 Rc=10^-3;
-%% run solver
+%%
 rx=[22,30,40];
 ry=[20,30,40];
 rz=[30,40,40];
 rt=[2,3];
 huge_model=0;
 
-[Rx,Ry,Rz,Rux,Ruy,Ruz,ux,uy,uz]=solver2(dt,dx,dy,dz,nt,nx,ny,nz,huge_model,sx,sy,sz,rt,srcx,srcy,srcz,rx,ry,rz,lp,C,Eta,rho,lpn,Rc);
+[Rx,Ry,Rz,Rux,Ruy,Ruz,ux,uy,uz]=solver(dt,dx,dy,dz,nt,nx,ny,nz,huge_model,sx,sy,sz,rt,srcx,srcy,srcz,rx,ry,rz,lp,C,Eta,rho,lpn,Rc);
 %%
 lim2=.01*[min(ux(:)),max(ux(:))];
 for l2=1:nt
-    tt=uy(:,sy(1),:,l2);
+    tt=ux(:,sy(1),:,3);
     tt2=reshape(tt,[nx,nz]);
     figure(3)
     
-    imagesc(tt2);
+    imagesc(tt2,lim2);
     title(num2str(l2));
     colorbar;
     shg;
@@ -167,7 +167,7 @@ for l2=[1:5:nt,nt]
     set(gca,'zdir','reverse');
     xlabel(['z*' num2str(dz) '[m]']);
     ylabel(['y*' num2str(dy) '[m]']);
-    title({['t=' num2str(dt*l2) 's'],['ux [m]'],['x=' num2str(dx*slice_x) 'm']});
+    title({['t=' num2str(dt*l2) 's'],['x=' num2str(dx*slice_x) 'm']});
     colorbar;
     
     subplot(2,2,2)
