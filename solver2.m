@@ -1,4 +1,4 @@
-function [Rx,Ry,Rz,Rux,Ruy,Ruz,ux,uy,uz]=solver2(dt,dx,dy,dz,nt,nx,ny,nz,huge_model,sx,sy,sz,rt,srcx,srcy,srcz,rx,ry,rz,lp,C,Eta,rho,lpn,Rc);
+function [Rx,Ry,Rz,Rux,Ruy,Ruz,ux,uy,uz]=solver2(dt,dx,dy,dz,nt,nx,ny,nz,huge_model,sx,sy,sz,rt,srcx,srcy,srcz,rx,ry,rz,lp,C,Eta,rho,lpn,Rc,tol)
 switch huge_model
     case 0
         %% initialization
@@ -28,6 +28,7 @@ switch huge_model
         Ruz=Rux;
         
         w=zeros(3,3,nx,ny,nz);
+        u2=zeros(nx*ny*3*2,1);
         %% PML
         vmax=sqrt(reshape(C(3,3,:,:,:),[nx,ny,nz])./rho);
         beta01=vmax*(lpn+1)*log(1/Rc)/2/lp/dx;
@@ -445,7 +446,8 @@ switch huge_model
                 end
             end
             %% solve u
-            u2=AA\B;
+            % u2=AA\B;
+            u2=gmres(AA,B,[],tol,10^3,[],[],u2);
             ux(:,:,1:2,l+1)=reshape(u2(1:3:nx*ny*3*2),[nx,ny,2]);
             uy(:,:,1:2,l+1)=reshape(u2(2:3:nx*ny*3*2),[nx,ny,2]);
             uz(:,:,1:2,l+1)=reshape(u2(3:3:nx*ny*3*2),[nx,ny,2]);
@@ -503,6 +505,7 @@ switch huge_model
         Ruz=Rux;
         
         w=zeros(3,3,nx,ny,nz);
+        u2=zeros(nx*ny*3*2,1);
         %% PML
         vmax=sqrt(reshape(C(3,3,:,:,:),[nx,ny,nz])./rho);
         beta01=vmax*(lpn+1)*log(1/Rc)/2/lp/dx;
@@ -947,10 +950,11 @@ switch huge_model
                 end
             end
             %% solve u
-            u2=AA\B;
-            ux(:,:,1:2,3)=reshape(u2(1:3:nx*ny*3*2),[nx,ny,2]);
-            uy(:,:,1:2,3)=reshape(u2(2:3:nx*ny*3*2),[nx,ny,2]);
-            uz(:,:,1:2,3)=reshape(u2(3:3:nx*ny*3*2),[nx,ny,2]);
+            % u2=AA\B;
+            u2=gmres(AA,B,[],tol,[],[],[],u2);
+            ux(:,:,1:2,l+1)=reshape(u2(1:3:nx*ny*3*2),[nx,ny,2]);
+            uy(:,:,1:2,l+1)=reshape(u2(2:3:nx*ny*3*2),[nx,ny,2]);
+            uz(:,:,1:2,l+1)=reshape(u2(3:3:nx*ny*3*2),[nx,ny,2]);
             %% save part of huge wavefield
             for lr=1:Nr
                 Rx(l+1,lr)=ux(rx(lr),ry(lr),rz(lr),3);

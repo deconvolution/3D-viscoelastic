@@ -57,7 +57,7 @@ rho=rho+randn(nx,ny,nz)*100;
 M=2.7;
 sx=23;
 sy=24;
-sz=10;
+sz=4;
 sn=length(sx);
 freq=10;
 singles=rickerWave(freq,dt,ns,M);
@@ -77,8 +77,9 @@ ry=[20,30,40];
 rz=[30,40,40];
 rt=[2,3];
 huge_model=0;
+tol=10^-5;
 
-[Rx,Ry,Rz,Rux,Ruy,Ruz,ux,uy,uz]=solver(dt,dx,dy,dz,nt,nx,ny,nz,huge_model,sx,sy,sz,rt,srcx,srcy,srcz,rx,ry,rz,lp,C,Eta,rho,lpn,Rc);
+[Rx,Ry,Rz,Rux,Ruy,Ruz,ux,uy,uz]=solver2(dt,dx,dy,dz,nt,nx,ny,nz,huge_model,sx,sy,sz,rt,srcx,srcy,srcz,rx,ry,rz,lp,C,Eta,rho,lpn,Rc,tol);
 %%
 lim2=.01*[min(ux(:)),max(ux(:))];
 for l2=1:nt

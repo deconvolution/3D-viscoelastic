@@ -130,10 +130,11 @@ rx=[22:100:1000,1000];
 ry=ones(size(rx))*90;
 rz=ones(size(rx));
 rt=[100,1000,2000,3000,4000,5000,6000,7000,8000];
-
 huge_model=1;
 
-[Rx,Ry,Rz,Rux,Ruy,Ruz,ux,uy,uz]=solver(dt,dx,dy,dz,nt,nx,ny,nz,huge_model,sx,sy,sz,rt,srcx,srcy,srcz,rx,ry,rz,lp,C,Eta,rho,lpn,Rc);
+tol=10^-5;
+
+[Rx,Ry,Rz,Rux,Ruy,Ruz,ux,uy,uz]=solver2(dt,dx,dy,dz,nt,nx,ny,nz,huge_model,sx,sy,sz,rt,srcx,srcy,srcz,rx,ry,rz,lp,C,Eta,rho,lpn,Rc,tol);
 %%
 tt=permute(Rux,[2,1,3,4]);
 lim2=.01*[min(ux(:)),max(ux(:))];

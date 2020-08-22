@@ -77,20 +77,21 @@ ry=[20,30,40];
 rz=[30,40,40];
 rt=[1:10:nt,nt];
 huge_model=1;
+tol=10^-5;
 
-[Rx,Ry,Rz,Rux,Ruy,Ruz,ux,uy,uz]=solver2(dt,dx,dy,dz,nt,nx,ny,nz,huge_model,sx,sy,sz,rt,srcx,srcy,srcz,rx,ry,rz,lp,C,Eta,rho,lpn,Rc);
+[Rx,Ry,Rz,Rux,Ruy,Ruz,ux,uy,uz]=solver2(dt,dx,dy,dz,nt,nx,ny,nz,huge_model,sx,sy,sz,rt,srcx,srcy,srcz,rx,ry,rz,lp,C,Eta,rho,lpn,Rc,tol);
 %%
 lim2=.01*[min(ux(:)),max(ux(:))];
-for l2=1:nt
-    tt=uy(:,sy(1),:,l2);
-    tt2=reshape(tt,[nx,nz]);
-    figure(3)
-    
-    imagesc(tt2);
-    title(num2str(l2));
-    colorbar;
-    shg;
-end
+
+tt=uy(:,sy(1),:,3);
+tt2=reshape(tt,[nx,nz]);
+figure(3)
+
+imagesc(tt2);
+title(num2str(l2));
+colorbar;
+shg;
+
 %%
 tt=permute(ux,[2,1,3,4]);
 lim2=.01*[min(ux(:)),max(ux(:))];
