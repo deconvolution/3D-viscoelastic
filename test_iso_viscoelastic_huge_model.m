@@ -10,9 +10,9 @@ dt=10^-3; % [s]
 nt=800; % Amount of time steps
 ns=nt;
 
-nx=101;
-ny=81;
-nz=61;
+nx=45;
+ny=45;
+nz=45;
 %% Define viscoelastic parameters
 theta=10^-5;
 tau=5/8*theta;
@@ -43,8 +43,8 @@ F0(4,4)=mu2;
 F0(5,5)=F0(4,4);
 F0(6,6)=F0(4,4);
 %
-C=zeros(6,6,nx,ny,nz);
-Eta=zeros(6,6,nx,ny,nz);
+C=zeros([6,6,nx,ny,nz]);
+Eta=zeros([6,6,nx,ny,nz]);
 for i=1:6
     for j=1:6
         C(i,j,:,:,:)=C0(i,j);
@@ -78,10 +78,13 @@ rz=[30,40,40];
 rt=[1:10:nt,nt];
 huge_model=1;
 tol=10^-5;
+scalex=2;
+scaley=2;
+scalez=2;
 
-[Rx,Ry,Rz,Rux,Ruy,Ruz,ux,uy,uz]=solver2(dt,dx,dy,dz,nt,nx,ny,nz,huge_model,sx,sy,sz,rt,srcx,srcy,srcz,rx,ry,rz,lp,C,Eta,rho,lpn,Rc,tol);
+[Rx,Ry,Rz,Rux,Ruy,Ruz,ux,uy,uz]=solver3(dt,dx,dy,dz,nt,nx,ny,nz,huge_model,sx,sy,sz,rt,srcx,srcy,srcz,rx,ry,rz,lp,C,Eta,rho,lpn,Rc,tol,scalex,scaley,scalez);
 %%
-lim2=.01*[min(ux(:)),max(ux(:))];
+ lim2=.01*[min(ux(:)),max(ux(:))];
 
 tt=uy(:,sy(1),:,3);
 tt2=reshape(tt,[nx,nz]);

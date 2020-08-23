@@ -290,7 +290,7 @@ switch huge_model
         fprintf('\ntime step=%d/%d',l+1,nt);
         fprintf('\n    epalsed time=%.2fs',toc);
         d=clock;
-        fprintf('\n    current time=%d %d %d %d %d %.0d',d(1),d(2),d(3),d(4),d(5),d(6));
+        fprintf('\n    current time=%d %d %d %d %d %.0d  ',d(1),d(2),d(3),d(4),d(5),d(6));
         %% for l>=3
         for l=2:nt-1
             %% compute U
@@ -474,7 +474,7 @@ switch huge_model
             fprintf('\ntime step=%d/%d',l+1,nt);
             fprintf('\n    epalsed time=%.2fs',toc);
             d=clock;
-            fprintf('\n    current time=%d %d %d %d %d %.0d',d(1),d(2),d(3),d(4),d(5),d(6));
+            fprintf('\n    current time=%d %d %d %d %d %.0d  ',d(1),d(2),d(3),d(4),d(5),d(6));
         end
         %%
     case 1
@@ -780,7 +780,7 @@ switch huge_model
         fprintf('\ntime step=%d/%d',l+1,nt);
         fprintf('\n    epalsed time=%.2fs',toc);
         d=clock;
-        fprintf('\n    current time=%d %d %d %d %d %.0d',d(1),d(2),d(3),d(4),d(5),d(6));
+        fprintf('\n    current time=%d %d %d %d %d %.0d  ',d(1),d(2),d(3),d(4),d(5),d(6));
         %% for l>=3
         for l=2:nt-1
             %% arrange auxiliary field
@@ -992,7 +992,7 @@ switch huge_model
             fprintf('\ntime step=%d/%d',l+1,nt);
             fprintf('\n    epalsed time=%.2fs',toc);
             d=clock;
-            fprintf('\n    current time=%d %d %d %d %d %.0d',d(1),d(2),d(3),d(4),d(5),d(6));
+            fprintf('\n    current time=%d %d %d %d %d %.0d  ',d(1),d(2),d(3),d(4),d(5),d(6));
         end
 end
 %%

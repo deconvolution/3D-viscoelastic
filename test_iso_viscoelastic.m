@@ -1,13 +1,13 @@
 %% Dimensions
 close all;
 clear all;
-dh=8; % Spacial grid step
+dh=5; % Spacial grid step
 dx=dh;
 dy=dh;
 dz=dh;
 dt=10^-3; % [s]
 
-nt=700; % Amount of time steps
+nt=300; % Amount of time steps
 ns=nt;
 
 nx=101;
@@ -77,7 +77,7 @@ ry=[20,30,40];
 rz=[30,40,40];
 rt=[2,3];
 huge_model=0;
-tol=10^-5;
+tol=10^-10;
 
 [Rx,Ry,Rz,Rux,Ruy,Ruz,ux,uy,uz]=solver2(dt,dx,dy,dz,nt,nx,ny,nz,huge_model,sx,sy,sz,rt,srcx,srcy,srcz,rx,ry,rz,lp,C,Eta,rho,lpn,Rc,tol);
 %%

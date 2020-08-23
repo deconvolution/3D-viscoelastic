@@ -3,10 +3,13 @@ close all;
 clear all;
 %%
 M=table2array(readtable('./modvPS.txt'));
-M2=reshape(M,[61,96,116,6]);
+[ind,~]=find(M(:,1)>429000 | M(:,1)<423000 | M(:,2)<4516000 | M(:,2)>4522000);
+M(ind,:)=[];
+
+M2=reshape(M,[61,60,60,6]);
 M3=permute(M2,[3,2,1,4]);
 
-M3=M3(1:10,1:10,1:15,:);
+% M3=M3(1:10,1:10,1:15,:);
 
 tit={'WE','SN','Al','vp','vs','vp/vs'};
 %%
