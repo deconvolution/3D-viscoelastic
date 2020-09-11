@@ -7,14 +7,15 @@ dy=dh;
 dz=dh;
 dt=10^-3; % [s]
 
-nt=300; % Amount of time steps
+nt=800; % Amount of time steps
 ns=nt;
 
 nx=101;
 ny=81;
 nz=51;
+load('..\random media\rho.mat');
 %% Define viscoelastic parameters
-theta=10^-5;
+theta=10^-3;
 tau=5/8*theta;
 
 lambda=10^9;
@@ -51,8 +52,7 @@ for i=1:6
         Eta(i,j,:,:,:)=F0(i,j);
     end
 end
-rho=ones(nx,ny,nz)*1000;
-rho=rho+randn(nx,ny,nz)*100;
+
 %% Source and source signals
 M=2.7;
 sx=23;
@@ -104,9 +104,9 @@ col=[1,0,0;
     1,1,0;
     1,1,1;
     0,0,0];
-rx=[10,20,30,40,51];
-ry=[10,20,30,40,51];
-rz=[1,1,1,1,1,1];
+rx=24:10:nx-20;
+ry=ones(size(rx))*40;
+rz=ones(size(rx));
 rt2=dt:dt:dt*nt;
 t3=zeros(length(rx),nt);
 t4=t3;
@@ -115,7 +115,7 @@ for i=1:size(t3,1)
     t4(i,:)=real(reshape(uz(rx(i),ry(i),rz(i),:),[1,nt]));
 end
 
-for l2=[1:10:nt,nt]
+for l2=[521:10:nt,nt]
     figure(3)
     set(gcf,'Visible','on');
     set(gcf,'position',[0,0,1500,600]);
@@ -168,7 +168,7 @@ for l2=[1:5:nt,nt]
     set(gca,'zdir','reverse');
     xlabel(['z*' num2str(dz) '[m]']);
     ylabel(['y*' num2str(dy) '[m]']);
-    title({['t=' num2str(dt*l2) 's'],['x=' num2str(dx*slice_x) 'm']});
+    title({['t=' num2str(dt*l2) 's'],['ux [m]'],['x=' num2str(dx*slice_x) 'm']});
     colorbar;
     
     subplot(2,2,2)
@@ -186,9 +186,10 @@ for l2=[1:5:nt,nt]
     ylabel(['x*' num2str(dx) '[m]']);
     title({['z=' num2str(dz*slice_z) 'm']});
     colorbar;
-    hold off;
     
-    shg;
+    print(gcf,['.\pic2\' num2str(l2) '.png'],'-dpng','-r100');
+    shg
+    hold off;
 end
 %% slice function
 for l2=1:5:nt
